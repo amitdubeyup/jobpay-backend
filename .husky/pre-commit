@@ -1,0 +1,8 @@
+# Run lint-staged for code quality
+npx lint-staged
+
+# Run tests before commit
+pnpm run test:ci
+
+# Security audit
+pnpm audit

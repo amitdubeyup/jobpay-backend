@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum JobStatus {
+  DRAFT
+  OPEN
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id        BigInt   @id @default(autoincrement())
+  
+  // Credentials
+  email     String   @unique @db.VarChar(255)
+  phone     String?  @unique @db.VarChar(20)
+  password  String   @db.Text
+  
+  // Personal details
+  firstName String?  @map("first_name") @db.VarChar(100)
+  lastName  String?  @map("last_name") @db.VarChar(100)
+  dob       DateTime? @db.Date
+  gender    Gender?
+  photoUrl  String?  @map("photo_url") @db.Text
+  
+  // Identity Verification (KYC)
+  identityNumber String?  @map("identity_number") @db.VarChar(100)
+  identityStatus Boolean  @default(false) @map("identity_status")
+  identityUrl    String?  @map("identity_url") @db.Text
+  
+  // System / Account
+  username       String?   @unique @db.VarChar(50)
+  role           UserRole  @default(USER)
+  countryCode    String?   @map("country_code") @db.VarChar(5)
+  isActive       Boolean   @default(false) @map("is_active")
+  emailVerified  Boolean   @default(false) @map("email_verified")
+  mobileVerified Boolean   @default(false) @map("mobile_verified")
+  signupSource   String?   @map("signup_source") @db.VarChar(50)
+  lastLogin      DateTime? @map("last_login")
+  
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  
+  // Relations
+  jobs      Job[]
+  
+  @@map("users")
+  @@index([email])
+  @@index([phone])
+  @@index([username])
+  @@index([role])
+  @@index([isActive])
+  @@index([identityStatus])
+  @@index([createdAt])
+}
+
+model Job {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  budget      Int
+  status      JobStatus @default(OPEN)
+  skills      String[]  @default([])
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime? // Soft delete
+  
+  // Relations
+  poster      User      @relation(fields: [posterId], references: [id], onDelete: Cascade)
+  posterId    BigInt
+  
+  @@map("jobs")
+  @@index([posterId])
+  @@index([status])
+  @@index([createdAt])
+  @@index([budget])
+}

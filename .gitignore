@@ -1,0 +1,73 @@
+# Compiled output
+/dist
+/node_modules
+/build
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+
+# Tests
+/coverage
+/.nyc_output
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Prisma
+/prisma/migrations/
+*.db
+*.db-journal
+
+# Generated GraphQL schema
+schema.graphql
+
+# Package manager
+.pnpm-store/
+.npm/
+~/.pnpm-cache/
+.yarn/
+.pnp.*
+# Note: pnpm-lock.yaml should be committed for reproducible builds
+
+# PNPM cache (should never be in project directory)
+~/.pnpm-cache/
+~/
+
+# Temporary files
+tmp/
+temp/
+
+# System Files
+Thumbs.db
+.DS_Store
+
+# Debug files
+*.tsbuildinfo
+.nestjs_debug_config
+
+*~

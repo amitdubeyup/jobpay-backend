@@ -1,0 +1,26 @@
+# Conventional commit message validation with verbose output
+echo "🔍 Validating commit message format..."
+pnpm dlx --quiet commitlint --edit ${1} --verbose
+
+# Show additional help if validation fails
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "❌ Commit message validation failed!"
+  echo ""
+  echo "📋 Required format: <type>(<scope>): <description>"
+  echo ""
+  echo "✅ Valid types: feat, fix, docs, style, refactor, perf, test, chore, ci, build, revert, security, deps"
+  echo ""
+  echo "Examples:"
+  echo "  ✅ feat(auth): add JWT authentication"
+  echo "  ✅ fix(api): resolve user validation bug"
+  echo "  ✅ docs: update README installation steps"
+  echo ""
+  echo "❌ Common mistakes:"
+  echo "  - Type should be lowercase: 'Feat' → 'feat'"
+  echo "  - Subject should be lowercase: 'Add Feature' → 'add feature'"
+  echo "  - Don't end subject with period: 'fix bug.' → 'fix bug'"
+  echo "  - Header too long (max 100 chars)"
+  echo ""
+  exit 1
+fi
