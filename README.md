@@ -12,9 +12,6 @@ Enterprise-grade fintech backend handling multi-tenant architecture, secure tran
 ## 🛠️ Tech Stack
 *   **NestJS, Node.js, TypeScript**
 
-## 👨‍💻 Lead Maintainer
-[@amitdubeyup](https://github.com/amitdubeyup)
-
 ## 📦 Installation
 
 1.  **Clone the repository**:
@@ -29,6 +26,9 @@ Enterprise-grade fintech backend handling multi-tenant architecture, secure tran
     ```bash
     npm start    # or python app.py
     ```
+
+## 👨‍💻 Lead Maintainer
+[@amitdubeyup](https://github.com/amitdubeyup)
 
 ## 📄 License
 This project is licensed under the **MIT License**.
