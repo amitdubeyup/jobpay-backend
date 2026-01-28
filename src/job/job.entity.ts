@@ -38,4 +38,28 @@ export class Job {
 
   @Field(() => User)
   poster!: User;
+
+  @Field(() => Int, { nullable: true })
+  applicationCount?: number;
+
+  @Field(() => Int, { nullable: true })
+  bookmarkCount?: number;
+}
+
+@ObjectType()
+export class JobSearchResult {
+  @Field(() => [Job])
+  jobs!: Job[];
+
+  @Field(() => Int)
+  total!: number;
+
+  @Field(() => Int)
+  limit!: number;
+
+  @Field(() => Int)
+  offset!: number;
+
+  @Field()
+  hasMore!: boolean;
 }

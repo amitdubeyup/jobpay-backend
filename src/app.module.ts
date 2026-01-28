@@ -13,6 +13,10 @@ import { PrismaService } from './prisma/prisma.service';
 import { RedisModule } from './redis/redis.module';
 import { SecurityModule } from './security/security.module';
 import { UsersModule } from './users/users.module';
+import { ApplicationModule } from './application/application.module';
+import { BookmarkModule } from './bookmark/bookmark.module';
+import { NotificationModule } from './notification/notification.module';
+import { PubSubModule } from './pubsub/pubsub.module';
 
 @Module({
   imports: [
@@ -21,6 +25,7 @@ import { UsersModule } from './users/users.module';
       validate: validateEnv,
     }),
     RedisModule,
+    PubSubModule,
     GraphQLModule.forRoot<MercuriusDriverConfig>({
       driver: MercuriusDriver,
       graphiql: process.env.GRAPHQL_PLAYGROUND === 'true',
@@ -36,6 +41,9 @@ import { UsersModule } from './users/users.module';
     JobModule,
     UsersModule,
     AuthModule,
+    ApplicationModule,
+    BookmarkModule,
+    NotificationModule,
   ],
   providers: [PrismaService],
 })
