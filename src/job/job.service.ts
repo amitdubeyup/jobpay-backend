@@ -29,13 +29,18 @@ export class JobService {
     return mappedJob;
   }
 
-  async findAll(): Promise<Job[]> {
+  async findAll(limit: number = 20, offset: number = 0): Promise<Job[]> {
     const jobs = await this.prisma.job.findMany({
       where: {
         isActive: true,
       },
       include: {
         poster: true,
+      },
+      take: limit,
+      skip: offset,
+      orderBy: {
+        createdAt: 'desc',
       },
     });
 

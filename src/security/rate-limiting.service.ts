@@ -7,14 +7,15 @@ export class RateLimitingService {
   private readonly logger = new Logger(RateLimitingService.name);
 
   /**
-   * Enhanced rate limiting for different endpoint types - PRODUCTION OPTIMIZED
+   * Enhanced rate limiting for different endpoint types - SECURITY HARDENED
    */
   getEndpointLimits(endpoint: string): { ttl: number; limit: number } {
     const limits: Record<string, { ttl: number; limit: number }> = {
-      // Authentication endpoints - security-focused
-      '/auth/login': { ttl: 60000, limit: 30 }, // Increased from 20 to 30 attempts per minute
-      '/auth/register': { ttl: 300000, limit: 15 }, // Increased from 10 to 15 registrations per 5 minutes
-      '/auth/forgot-password': { ttl: 3600000, limit: 8 }, // Increased from 5 to 8 attempts per hour
+      // Authentication endpoints - STRICT SECURITY LIMITS
+      // These limits help prevent brute-force attacks
+      '/auth/login': { ttl: 60000, limit: 5 }, // 5 attempts per minute (was 30 - too high!)
+      '/auth/register': { ttl: 300000, limit: 5 }, // 5 registrations per 5 minutes (was 15)
+      '/auth/forgot-password': { ttl: 3600000, limit: 3 }, // 3 attempts per hour (was 8)
 
       // GraphQL endpoints - HIGH PERFORMANCE
       '/graphql': { ttl: 60000, limit: 1000 }, // 1000 queries per minute (~16.67 RPS)

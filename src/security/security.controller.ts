@@ -8,15 +8,16 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 // ✅ REPLACED: Memory-leaking services with Redis-based ones
 import { Roles } from '../auth/decorators/roles.decorator';
-import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
+import { HttpRolesGuard } from '../auth/guards/roles.guard';
 import { RedisIpBlockingService } from './redis-ip-blocking.service';
 import { RedisPerformanceService } from './redis-performance.service';
 import { RedisSecurityService } from './redis-security.service';
 
 @Controller('security')
-@UseGuards(GqlAuthGuard)
+@UseGuards(AuthGuard('jwt'), HttpRolesGuard)
 export class SecurityController {
   constructor(
     // ✅ REPLACED: Memory-leaking services with Redis-based ones

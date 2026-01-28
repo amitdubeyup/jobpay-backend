@@ -15,7 +15,7 @@ export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   async createUser(data: RegisterUserInput): Promise<User> {
-    const hashedPassword = await bcrypt.hash(data.password, 10);
+    const hashedPassword = await bcrypt.hash(data.password, 12);
 
     const user = await this.prisma.user.create({
       data: {
@@ -84,7 +84,7 @@ export class UsersService {
     if (data.username) updateData.username = data.username;
 
     if (data.password) {
-      updateData.password = await bcrypt.hash(data.password, 10);
+      updateData.password = await bcrypt.hash(data.password, 12);
     }
 
     const updatedUser = await this.prisma.user.update({

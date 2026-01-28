@@ -7,6 +7,8 @@ import {
   IsOptional,
   IsPhoneNumber,
   IsString,
+  IsUrl,
+  Matches,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -15,12 +17,17 @@ import { Gender } from '../user.entity';
 @InputType()
 export class RegisterUserInput {
   @Field()
-  @IsEmail()
+  @IsEmail({}, { message: 'Please provide a valid email address' })
+  @MaxLength(255, { message: 'Email must not exceed 255 characters' })
   email!: string;
 
   @Field()
   @IsNotEmpty()
-  @MinLength(8)
+  @MinLength(8, { message: 'Password must be at least 8 characters' })
+  @MaxLength(128, { message: 'Password must not exceed 128 characters' })
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, {
+    message: 'Password must contain at least one uppercase letter, one lowercase letter, and one number',
+  })
   password!: string;
 
   @Field({ nullable: true })
@@ -74,7 +81,8 @@ export class UpdateProfileInput {
   // Always updatable fields
   @Field({ nullable: true })
   @IsOptional()
-  @IsEmail()
+  @IsEmail({}, { message: 'Please provide a valid email address' })
+  @MaxLength(255, { message: 'Email must not exceed 255 characters' })
   email?: string;
 
   @Field({ nullable: true })
@@ -84,18 +92,26 @@ export class UpdateProfileInput {
 
   @Field({ nullable: true })
   @IsOptional()
-  @MinLength(8)
+  @MinLength(8, { message: 'Password must be at least 8 characters' })
+  @MaxLength(128, { message: 'Password must not exceed 128 characters' })
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, {
+    message: 'Password must contain at least one uppercase letter, one lowercase letter, and one number',
+  })
   password?: string;
 
   @Field({ nullable: true })
   @IsOptional()
-  @IsString()
+  @IsUrl({}, { message: 'Photo URL must be a valid URL' })
+  @MaxLength(2048, { message: 'Photo URL must not exceed 2048 characters' })
   photoUrl?: string;
 
   @Field({ nullable: true })
   @IsOptional()
   @IsString()
   @MaxLength(50)
+  @Matches(/^[a-zA-Z0-9_-]+$/, {
+    message: 'Username can only contain letters, numbers, underscores, and hyphens',
+  })
   username?: string;
 }
 
@@ -134,14 +150,19 @@ export class UpdatePersonalDetailsInput {
 @InputType()
 export class VerifyIdentityInput {
   @Field()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Identity number is required' })
   @IsString()
-  @MaxLength(100)
+  @MinLength(5, { message: 'Identity number must be at least 5 characters' })
+  @MaxLength(100, { message: 'Identity number must not exceed 100 characters' })
+  @Matches(/^[a-zA-Z0-9-]+$/, {
+    message: 'Identity number can only contain letters, numbers, and hyphens',
+  })
   identityNumber!: string;
 
   @Field()
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: 'Identity document URL is required' })
+  @IsUrl({}, { message: 'Identity URL must be a valid URL' })
+  @MaxLength(2048, { message: 'Identity URL must not exceed 2048 characters' })
   identityUrl!: string;
 }
 

@@ -63,6 +63,7 @@ model User {
   jobs      Job[]
   
   @@map("users")
+  // Single-column indexes
   @@index([email])
   @@index([phone])
   @@index([username])
@@ -70,6 +71,10 @@ model User {
   @@index([isActive])
   @@index([identityStatus])
   @@index([createdAt])
+  // Composite indexes for common query patterns
+  @@index([isActive, createdAt])      // Active users listing
+  @@index([role, isActive])           // Role-based filtering
+  @@index([emailVerified, createdAt]) // Verification flows
 }
 
 model Job {
@@ -89,8 +94,14 @@ model Job {
   posterId    BigInt
   
   @@map("jobs")
+  // Single-column indexes
   @@index([posterId])
   @@index([status])
   @@index([createdAt])
   @@index([budget])
+  // Composite indexes for common query patterns
+  @@index([status, createdAt])           // Job search by status
+  @@index([posterId, status])            // Employer's jobs by status
+  @@index([status, isActive, createdAt]) // Active job listings
+  @@index([isActive, createdAt])         // All active jobs sorted
 }
